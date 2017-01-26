@@ -1,0 +1,41 @@
+<!doctype HTML>
+<head>
+    <title>Slideshow</title>
+</head>
+<body>
+
+    <!-- CSS -->
+    <style>
+        html, body = {
+            position:fixed;
+            top:0;
+            bottom:0;
+            left:0;
+            right:0;
+        }
+    </style>
+
+    <!-- Picture frame -->
+    <div id="slideshow main">
+        <img id="current image" src="" alt="slideshow"/>
+    </div>
+
+    <script>
+    var numPictures = 10;
+    var allPictures = Array(numPictures).fill("static/live-slideshow/");
+    var date = "24_01_2017";
+    for (var i = 0; i < allPictures.length; i++){
+        allPictures[i] += ( (i+1).toString() + "_" + date + ".jpg" );
+    }
+    i = 0;
+    setInterval(function(){
+        var livePicture = document.getElementById("current image");
+        livePicture.src = allPictures[i];
+        i += 1;
+        if (i == numPictures)
+            i = 0;
+        }, 2000
+    )
+    </script>
+
+</body>
