@@ -49,6 +49,7 @@ def main():
     files = glob.glob(os.path.join(temp_path, '*'))
     copy(files, archive_path)
     organize_images(how, files, live_path)
+    write_paths_to_file(live_path)
 
 
 def save_top_images(url, N_pictures, save_path):
@@ -130,10 +131,17 @@ def organize_images(how, files, save_path_final):
         live_files = glob.glob(os.path.join(save_path_final, '*'))
         for f in live_files:
             os.remove(f)
-        # Copy from temp
+        # Move from temp
         copy(files, save_path_final, clean=True)
 
+def write_paths_to_file(path):
 
+    files = glob.glob(os.path.join(path, '*'))
+    imgs = [f for f in files if f.split('.')[-1] in
+            ('jpg', 'jpeg', 'png', 'gif')]
+    with open(os.path.join(path, 'image_paths.txt'), 'w') as f:
+        for img in imgs:
+            f.write(img+'\n')
 
 if __name__ == '__main__':
     main()
