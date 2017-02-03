@@ -6,36 +6,78 @@
 
     <!-- CSS -->
     <style>
-        html, body = {
-            position:fixed;
-            top:0;
-            bottom:0;
-            left:0;
-            right:0;
+        div#slideshowMain = {
+            position:absolute;
+            top:0px;
+            bottom:0px;
+            width:100%;
+            background-color:blue;
+            /*position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;*/
+        }
+        img{
+            height:100%;
+            width:100%;
+            object-fit:contain;
+            /*min-height:100%;
+            min-width:100%;
+            height:auto;
+            width:auto;
+            position:absolute;
+            top:0%; bottom:0%;
+            left:0%; right:0%;
+            margin:auto;*/
         }
     </style>
 
     <!-- Picture frame -->
-    <div id="slideshow main">
-        <img id="current image" src="" alt="slideshow"/>
+    <div id="slideshowMain">
+        <p>
+            dmmmm\br
+            ol
+        </p>
+        <!-- update src to "loading image" -->
+        <!--<img id="liveImage" src="" alt="first image is loding..."/>-->
     </div>
 
+    <!-- Slideshow generator -->
     <script>
-    var numPictures = 10;
-    var allPictures = Array(numPictures).fill("static/live-slideshow/");
-    var date = "24_01_2017";
-    for (var i = 0; i < allPictures.length; i++){
-        allPictures[i] += ( (i+1).toString() + "_" + date + ".jpg" );
-    }
-    i = 0;
-    setInterval(function(){
-        var livePicture = document.getElementById("current image");
-        livePicture.src = allPictures[i];
-        i += 1;
-        if (i == numPictures)
-            i = 0;
-        }, 2000
-    )
+        // To go fullscreen
+        // var e = document.getElementById('slideshowMain');
+        // e.requestFullscreen();
+        // window.open("index.html","fs","fullscreen=yes")
+
+        // Parameters
+        var imageDisplayTime = 2000 // Measured in ms
+
+        // Get images to display
+        file = 'http://localhost:8000/static/live-slideshow/image_paths.txt';
+        var rawFile = new XMLHttpRequest();
+        rawFile.open("GET", file, true);
+        rawFile.onreadystatechange = function (){
+            // Wait until file has loaded (state 4)
+            if (rawFile.readyState == 4) {
+
+                var text = rawFile.responseText;
+                var allPictures = text.split('\n');
+                allPictures.pop(); // Remove the last item (an empty string)
+
+                var i = 0;
+                setInterval(function(){
+                    var livePicture = document.getElementById("liveImage");
+                    livePicture.src = allPictures[i];
+                    i += 1;
+                    if (i == allPictures.length - 1)
+                        i = 0;
+                    }, imageDisplayTime
+                );
+            };
+        };
+        rawFile.send(null);
+
     </script>
 
 </body>
